@@ -7,42 +7,53 @@
   <link rel="stylesheet" href="style.css" />
 </head>
 <body>
+  <div class="bg-glow glow-1"></div>
+  <div class="bg-glow glow-2"></div>
+
   <div class="page">
     <header class="topbar">
-      <h1>CS Blind Pick Maps</h1>
-      <p>Place each map from 1 to 10 without knowing what comes next.</p>
+      <div>
+        <p class="eyebrow">BLIND PICK</p>
+        <h1>Rank CS Maps From 1 to 10</h1>
+        <p class="subtitle">A new map appears each turn. Choose its place before you see the next one.</p>
+      </div>
+
+      <button id="resetBtn" class="reset-btn">Reset</button>
     </header>
 
     <main class="game-layout">
-      <section class="slots-section">
-        <div class="slots-header">
+      <section class="ranking-panel">
+        <div class="panel-header">
           <h2>Your Ranking</h2>
-          <button id="resetBtn" class="secondary-btn">Reset</button>
+          <span id="filledCount">0 / 10 placed</span>
         </div>
+
         <div id="slots" class="slots"></div>
       </section>
 
-      <section class="current-map-section">
+      <section class="map-panel">
         <div class="map-card">
-          <div class="map-card-top">
-            <span id="progressText">1 / 10</span>
+          <div class="map-top">
+            <div class="turn-badge" id="progressText">Turn 1 / 10</div>
           </div>
 
           <div id="mapDisplay" class="map-display">
             <img id="currentMapImage" src="" alt="Current map" />
-            <h3 id="currentMapName">Map Name</h3>
+            <div class="map-info">
+              <p class="map-label">Current Map</p>
+              <h3 id="currentMapName">Map Name</h3>
+            </div>
           </div>
 
-          <div class="slot-buttons-area">
-            <p class="slot-buttons-title">Choose a rank for this map</p>
-            <div id="slotButtons" class="slot-buttons"></div>
+          <div class="instruction-box">
+            <p>Click one of the empty ranks on the left to place this map.</p>
           </div>
         </div>
 
         <div id="completedBox" class="completed-box hidden">
           <h2>Ranking Complete</h2>
-          <p>Your blind pick is ready.</p>
-          <button id="playAgainBtn" class="primary-btn">Play Again</button>
+          <p>Your blind pick list is done.</p>
+          <button id="playAgainBtn" class="play-again-btn">Play Again</button>
         </div>
       </section>
     </main>
