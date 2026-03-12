@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>CS Blind Pick Maps</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <div class="page">
+    <header class="topbar">
+      <h1>CS Blind Pick Maps</h1>
+      <p>Place each map from 1 to 10 without knowing what comes next.</p>
+    </header>
+
+    <main class="game-layout">
+      <section class="slots-section">
+        <div class="slots-header">
+          <h2>Your Ranking</h2>
+          <button id="resetBtn" class="secondary-btn">Reset</button>
+        </div>
+        <div id="slots" class="slots"></div>
+      </section>
+
+      <section class="current-map-section">
+        <div class="map-card">
+          <div class="map-card-top">
+            <span id="progressText">1 / 10</span>
+          </div>
+
+          <div id="mapDisplay" class="map-display">
+            <img id="currentMapImage" src="" alt="Current map" />
+            <h3 id="currentMapName">Map Name</h3>
+          </div>
+
+          <div class="slot-buttons-area">
+            <p class="slot-buttons-title">Choose a rank for this map</p>
+            <div id="slotButtons" class="slot-buttons"></div>
+          </div>
+        </div>
+
+        <div id="completedBox" class="completed-box hidden">
+          <h2>Ranking Complete</h2>
+          <p>Your blind pick is ready.</p>
+          <button id="playAgainBtn" class="primary-btn">Play Again</button>
+        </div>
+      </section>
+    </main>
+  </div>
+
+  <script src="script.js"></script>
+</body>
+</html>
