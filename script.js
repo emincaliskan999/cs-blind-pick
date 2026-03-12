@@ -12,25 +12,25 @@ const maps = [
 ];
 
 const slotsContainer = document.getElementById("slots");
-const slotButtonsContainer = document.getElementById("slotButtons");
 const currentMapImage = document.getElementById("currentMapImage");
 const currentMapName = document.getElementById("currentMapName");
 const progressText = document.getElementById("progressText");
 const completedBox = document.getElementById("completedBox");
 const playAgainBtn = document.getElementById("playAgainBtn");
 const resetBtn = document.getElementById("resetBtn");
+const filledCount = document.getElementById("filledCount");
 
 let shuffledMaps = [];
 let currentMapIndex = 0;
 let rankings = new Array(10).fill(null);
 
 function shuffleArray(array) {
-  const copiedArray = [...array];
-  for (let i = copiedArray.length - 1; i > 0; i--) {
+  const copied = [...array];
+  for (let i = copied.length - 1; i > 0; i--) {
     const j = Math.floor(Math.random() * (i + 1));
-    [copiedArray[i], copiedArray[j]] = [copiedArray[j], copiedArray[i]];
+    [copied[i], copied[j]] = [copied[j], copied[i]];
   }
-  return copiedArray;
+  return copied;
 }
 
 function createSlots() {
@@ -39,6 +39,12 @@ function createSlots() {
   for (let i = 0; i < 10; i++) {
     const slot = document.createElement("div");
     slot.className = "rank-slot";
+
+    if (rankings[i]) {
+      slot.classList.add("filled");
+    } else if (currentMapIndex < shuffledMaps.length) {
+      slot.addEventListener("click", () => placeCurrentMapIntoSlot(i));
+    }
 
     const rankNumber = document.createElement("div");
     rankNumber.className = "rank-number";
@@ -61,7 +67,7 @@ function createSlots() {
     } else {
       const placeholder = document.createElement("div");
       placeholder.className = "rank-placeholder";
-      placeholder.textContent = "Empty slot";
+      placeholder.textContent = "Click to place current map here";
       rankContent.appendChild(placeholder);
     }
 
@@ -69,35 +75,17 @@ function createSlots() {
     slot.appendChild(rankContent);
     slotsContainer.appendChild(slot);
   }
-}
 
-function createSlotButtons() {
-  slotButtonsContainer.innerHTML = "";
-
-  for (let i = 0; i < 10; i++) {
-    const btn = document.createElement("button");
-    btn.className = "slot-btn";
-    btn.textContent = i + 1;
-
-    if (rankings[i] !== null) {
-      btn.disabled = true;
-    }
-
-    btn.addEventListener("click", () => {
-      placeCurrentMapIntoSlot(i);
-    });
-
-    slotButtonsContainer.appendChild(btn);
-  }
+  const placed = rankings.filter(Boolean).length;
+  filledCount.textContent = `${placed} / 10 placed`;
 }
 
 function updateCurrentMapDisplay() {
   if (currentMapIndex >= shuffledMaps.length) {
     currentMapImage.style.display = "none";
     currentMapName.textContent = "All maps ranked";
-    progressText.textContent = "10 / 10";
+    progressText.textContent = "Completed";
     completedBox.classList.remove("hidden");
-    slotButtonsContainer.innerHTML = "";
     return;
   }
 
@@ -106,21 +94,18 @@ function updateCurrentMapDisplay() {
   currentMapImage.src = currentMap.image;
   currentMapImage.alt = currentMap.name;
   currentMapName.textContent = currentMap.name;
-  progressText.textContent = `${currentMapIndex + 1} / ${shuffledMaps.length}`;
+  progressText.textContent = `Turn ${currentMapIndex + 1} / ${shuffledMaps.length}`;
   completedBox.classList.add("hidden");
 }
 
 function placeCurrentMapIntoSlot(slotIndex) {
-  if (rankings[slotIndex] !== null) {
-    return;
-  }
+  if (rankings[slotIndex] !== null) return;
+  if (currentMapIndex >= shuffledMaps.length) return;
 
-  const currentMap = shuffledMaps[currentMapIndex];
-  rankings[slotIndex] = currentMap;
+  rankings[slotIndex] = shuffledMaps[currentMapIndex];
   currentMapIndex += 1;
 
   createSlots();
-  createSlotButtons();
   updateCurrentMapDisplay();
 }
 
@@ -130,7 +115,6 @@ function resetGame() {
   rankings = new Array(10).fill(null);
 
   createSlots();
-  createSlotButtons();
   updateCurrentMapDisplay();
 }
 
